@@ -21,7 +21,6 @@ Config.getAll().then(function (config) {
 
     scripts.forEach(s => {
         if (s.length > 1 && !s[1]) return;
-
         let script = document.createElement('script');
         script.src = chrome.runtime.getURL(s[0]);
         (document.head || document.documentElement).prepend(script);
@@ -145,9 +144,9 @@ function isBlockDomain(blackListDomain) {
     const domains = blackListDomain.split("\n") || [];
     for (let i = 0; i < domains.length; i++) {
         if (domains[i]) {
-            const regExp = new RegExp(domains[i]);
+            const regExp = new RegExp(domains[i], 'i');
             if (regExp.test(location.href)) {
-                console.log('Domain is block by rule', domains[i]);
+                console.log('URL is blocked by rule', domains[i]);
                 return true;
             }
         }
@@ -205,7 +204,7 @@ function attachProxyParams(params, config) {
  */
 function createSolverButton(captchaType, widgetId, config) {
     let button = $(`
-        <div class="captcha-solver captcha-solver_${ config.buttonPosition }" data-state="ready" data-captcha-type="${captchaType}" data-widget-id="${widgetId}">
+        <div class="captcha-solver captcha-solver_${config.buttonPosition}" data-state="ready" data-captcha-type="${captchaType}" data-widget-id="${widgetId}">
             <div class="captcha-solver-image">
                 <img src="${chrome.runtime.getURL("assets/images/icon_32.png")}">
             </div>
