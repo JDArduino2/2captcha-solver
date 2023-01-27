@@ -34,7 +34,7 @@ var Config = {
         autoSolveCapyPuzzle: false,
         repeatOnErrorTimes: 0,
         repeatOnErrorDelay: 0,
-        buttonPosition: 'fixed',
+        buttonPosition: 'inner',
         useProxy: false,
         proxytype: "HTTP",
         proxy: "",
@@ -55,7 +55,7 @@ var Config = {
     },
 
     getAll: function () {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             chrome.storage.local.get('config', function (result) {
                 resolve(Config.joinObjects(Config.default, result.config));
             });
@@ -63,7 +63,7 @@ var Config = {
     },
 
     set: function (newData) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             Config.getAll()
                 .then(data => {
                     chrome.storage.local.set({
