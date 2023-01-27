@@ -147,7 +147,6 @@ function isBlockDomain(blackListDomain) {
         if (domains[i]) {
             const regExp = new RegExp(domains[i], 'i');
             if (regExp.test(location.href)) {
-                console.log('URL is in blacklist', domains[i]);
                 return true;
             }
         }
