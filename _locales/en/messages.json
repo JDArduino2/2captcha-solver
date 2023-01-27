@@ -169,9 +169,9 @@
     "message": "Button position"
   },
   "buttonPositionInner": {
-    "message": "In form with captcha"
+    "message": "Near the captcha"
   },
   "buttonPositionFixed": {
-    "message": "Relative by the viewport"
+    "message": "Bottom right corner"
   }
 }
