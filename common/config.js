@@ -36,10 +36,11 @@ var Config = {
         autoSolveTurnstile: false,
         repeatOnErrorTimes: 0,
         repeatOnErrorDelay: 0,
+        buttonPosition: 'inner',
         useProxy: false,
         proxytype: "HTTP",
         proxy: "",
-        blackListDomain: "",
+        blackListDomain: "example.com\n2captcha.com/auth\nrucaptcha.com/auth",
         normalSources: [],
         autoSubmitRules: [{
             url_pattern: "(2|ru)captcha.com/demo",
@@ -56,7 +57,7 @@ var Config = {
     },
 
     getAll: function () {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             chrome.storage.local.get('config', function (result) {
                 resolve(Config.joinObjects(Config.default, result.config));
             });
@@ -64,7 +65,7 @@ var Config = {
     },
 
     set: function (newData) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             Config.getAll()
                 .then(data => {
                     chrome.storage.local.set({

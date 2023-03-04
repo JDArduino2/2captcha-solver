@@ -163,6 +163,15 @@
     "message": "Borrar"
   },
   "blackListDomain": {
-    "message": "Lista negra de dominio"
+    "message": "Lista negra de URL"
+  },
+  "buttonPosition": {
+    "message": "Ubicación del botón"
+  },
+  "buttonPositionInner": {
+    "message": "Cerca del captcha"
+  },
+  "buttonPositionFixed": {
+    "message": "Esquina derecha inferior"
   }
 }

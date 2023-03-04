@@ -163,6 +163,15 @@
     "message": "Удалить"
   },
   "blackListDomain": {
-    "message": "Черный список доменов"
+    "message": "Черный список URL"
+  },
+  "buttonPosition": {
+    "message": "Расположение кнопки"
+  },
+  "buttonPositionInner": {
+    "message": "Рядом с капчей"
+  },
+  "buttonPositionFixed": {
+    "message": "Правый нижний угол"
   }
 }

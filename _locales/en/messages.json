@@ -163,6 +163,15 @@
     "message": "Delete"
   },
   "blackListDomain": {
-    "message": "Domain blacklist"
+    "message": "URL blacklist"
+  },
+  "buttonPosition": {
+    "message": "Button position"
+  },
+  "buttonPositionInner": {
+    "message": "Near the captcha"
+  },
+  "buttonPositionFixed": {
+    "message": "Bottom right corner"
   }
 }
