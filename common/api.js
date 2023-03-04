@@ -79,6 +79,12 @@ class TwoCaptcha {
         return this.solve(captcha);
     }
 
+    amazon_waf(captcha) {
+        captcha.method = "amazon_waf";
+
+        return this.solve(captcha);
+    }
+
     async solve(captcha, waitOptions) {
         let result = {};
 
