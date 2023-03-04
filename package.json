@@ -24,6 +24,7 @@
         "keycaptcha",
         "lemin",
         "yandex",
-        "capy"
+        "capy",
+        "cloudflare turnstile"
     ]
 }
