@@ -33,7 +33,7 @@ var Config = {
         autoSolveLemin: false,
         autoSolveYandex: false,
         autoSolveCapyPuzzle: false,
-        autoSolveAmazonWaf: true,
+        autoSolveAmazonWaf: false,
         repeatOnErrorTimes: 0,
         repeatOnErrorDelay: 0,
         buttonPosition: 'inner',
