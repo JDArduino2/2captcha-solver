@@ -38,7 +38,7 @@ CaptchaProcessors.register({
 
     onSolved: function(widget, answer) {
         let helper = this.getHelper(widget);
-        helper.find("input[name=smart-token]").val(answer);
+        helper.find("input[name=challenge.input]").val(answer);
     },
 
     getForm: function(widget) {

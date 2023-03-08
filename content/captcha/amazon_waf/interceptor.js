@@ -14,9 +14,11 @@
 
     let interceptorFunc = function () {
 
-        const initHelper = function (arguments) {
+        const initHelper = function (inputId, arguments) {
             registerCaptchaWidget({
                 captchaType: "amazon_waf",
+                inputId: inputId,
+                widgetId: arguments.key,
                 sitekey: arguments.key,
                 iv: arguments.iv,
                 context: arguments.context,
@@ -31,7 +33,11 @@
                         apply: (target, thisArg, argumentsList) => {
                             const obj = Reflect.apply(target, thisArg, argumentsList);
                             if (target.name === 'renderCaptcha') {
-                                initHelper(argumentsList[2]);
+                                if (!target.id) {
+                                    target.id = "captcha-container";
+                                }
+
+                                initHelper(target.id, argumentsList[2]);
                             }
                             return obj;
                         }
