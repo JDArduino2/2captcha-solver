@@ -30,7 +30,9 @@ CaptchaProcessors.register({
     getParams: function(widget, config) {
         let params = {
             url: location.href,
-            sitekey : widget.sitekey
+            sitekey : widget.sitekey,
+            context : widget.context,
+            iv : widget.iv,
         };
 
         return params;
@@ -38,7 +40,24 @@ CaptchaProcessors.register({
 
     onSolved: function(widget, answer) {
         let helper = this.getHelper(widget);
-        helper.find("input[name=challenge.input]").val(answer);
+        const challenge = helper.find("challenge.input")
+        if (challenge.length) {
+            challenge.val(answer);
+        }
+
+        if (!helper.find('.twocaptcha-amazon_waf-helper').length) {
+            $(`
+                <div class="twocaptcha-amazon_waf-helper">                  
+                    <input type="hidden" name="amazon_waf_token">                   
+                </div>
+            `).appendTo(helper);
+        }
+
+        helper.find("input[name=amazon_waf_token]").val(answer);
+
+        let script = document.createElement("script");
+        script.src = chrome.runtime.getURL("content/captcha/amazon_waf/validate.js");
+        document.body.append(script);
     },
 
     getForm: function(widget) {

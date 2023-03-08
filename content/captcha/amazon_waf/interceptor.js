@@ -18,7 +18,7 @@
             registerCaptchaWidget({
                 captchaType: "amazon_waf",
                 inputId: inputId,
-                widgetId: arguments.key,
+                widgetId: inputId,
                 sitekey: arguments.key,
                 iv: arguments.iv,
                 context: arguments.context,
