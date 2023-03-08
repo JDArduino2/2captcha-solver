@@ -1,5 +1,5 @@
 (() => {
-    let originalFunc;
+    let originalFunc = window.initGeetest4;
 
     Object.defineProperty(window, "initGeetest4", {
         get: function () {
@@ -7,11 +7,15 @@
         },
         set: function (e) {
             originalFunc = e;
-        },
+        }, configurable: true
     });
 
     let interceptorFunc = function (params, callback) {
         const getCaptchaId = function () {
+            if (params && params.captchaId) {
+                return params.captchaId
+            }
+
             const scripts = document.querySelectorAll("script");
             let src = findScript(scripts);
             const url = new URL(src);
@@ -56,6 +60,7 @@
                 get: function (target, prop) {
                     switch (prop) {
                         case 'onReady':
+                        case 'onSuccess':
                             initHelper();
                             return target[prop];
                         case 'getValidate':
