@@ -70,62 +70,6 @@
 
     let manageEnterpriseObj = function (obj) {
         if (window.___grecaptcha_cfg === undefined) return;
-        let originalEnterpriseObj;
-
-        Object.defineProperty(obj, "enterprise", {
-            get: function () {
-                return originalEnterpriseObj;
-            },
-            set: function (ent) {
-                originalEnterpriseObj = ent;
-
-                let originalExecuteFunc;
-                let originalResetFunc;
-
-                Object.defineProperty(ent, "execute", {
-                    get: function () {
-                        return async function (sitekey, options) {
-                            if (!options) {
-                                if (!isInvisible()) {
-                                    return await originalExecuteFunc(sitekey, options);
-                                }
-                            }
-
-                            let config = await sendMsgToSolverCS("getConfig");
-
-                            if (!config.enabledForRecaptchaV3) {
-                                return await originalExecuteFunc(sitekey, options);
-                            }
-
-                            let widgetId = addWidgetInfo(sitekey, options, "1");
-
-                            return await waitForResult(widgetId);
-                        };
-                    },
-                    set: function (e) {
-                        originalExecuteFunc = e;
-                    },
-                });
-
-                Object.defineProperty(ent, "reset", {
-                    get: function () {
-                        return function (widgetId) {
-                            if (widgetId === undefined) {
-                                let ids = Object.keys(___grecaptcha_cfg.clients)[0];
-                                widgetId = ids.length ? ids[0] : 0;
-                            }
-
-                            resetCaptchaWidget("recaptcha", widgetId);
-
-                            return originalResetFunc(widgetId);
-                        };
-                    },
-                    set: function (e) {
-                        originalResetFunc = e;
-                    },
-                });
-            },
-        });
     };
 
     let addWidgetInfo = function (sitekey, options, enterprise) {

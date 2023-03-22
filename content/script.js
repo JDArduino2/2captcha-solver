@@ -12,6 +12,7 @@ Config.getAll().then(function (config) {
         ["content/captcha/hcaptcha/hunter.js"],
         ["content/captcha/keycaptcha/hunter.js"],
         ["content/captcha/recaptcha/interceptor.js", config.isPluginEnabled && (config.enabledForRecaptchaV2 || config.enabledForInvisibleRecaptchaV2 || config.enabledForRecaptchaV3) && !isBlocked],
+        ["content/captcha/recaptcha_audio/interceptor.js", config.isPluginEnabled && config.enabledForRecaptchaAudio && !isBlocked],
         ["content/captcha/recaptcha/hunter.js"],
         ["content/captcha/arkoselabs/interceptor.js", config.isPluginEnabled && config.enabledForArkoselabs && !isBlocked],
         ["content/captcha/arkoselabs/hunter.js"],

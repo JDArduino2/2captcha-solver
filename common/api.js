@@ -31,6 +31,12 @@ class TwoCaptcha {
         return this.solve(captcha, {timeout: this.recaptchaTimeout});
     }
 
+    recaptcha_audio(captcha) {
+        captcha.method = "audio";
+
+        return this.solve(captcha, {timeout: this.recaptchaTimeout});
+    }
+
     geetest(captcha) {
         captcha.method = 'geetest';
 
