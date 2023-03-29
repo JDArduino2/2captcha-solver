@@ -40,7 +40,7 @@ Extension automatically detects which service to use when you enter your `API KE
 There are 3 scripts for each captcha type:
 * `processor.js` - required for any type. The script defines the extension logic: where to place the button, what to do when the answer is received, etc.
 * `hunter.js` - looking for the captcha on page. Any found captcha is added to `captcha-widgets` collection.
-* `hunter.js` - intercept captchas that are loaded dynamically from a function/method call. Redefines the methods to intercept captcha parameters then adds the captcha to `captcha-widgets` collection.
+* `interceptor.js` - intercept captchas that are loaded dynamically from a function/method call. Redefines the methods to intercept captcha parameters then adds the captcha to `captcha-widgets` collection.
 
 The main script [`content/script.js`](content/script.js) periodically checks the `captcha-widgets` collection and applies the required logic to the captchas. The `captcha-widgets` collection is stored inside `<head>` tag.
 
