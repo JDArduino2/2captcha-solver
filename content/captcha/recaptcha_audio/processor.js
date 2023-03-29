@@ -16,14 +16,21 @@ CaptchaProcessors.register({
     },
 
     onSolved: function(widget, answer) {
-        let input = document.getElementById(widget.inputId);
+        this.inputAnswer(answer).then();
+    },
 
+    inputAnswer: async function(answer) {
+        const input = document.querySelector('#audio-response');
         input.value = answer;
-
         input.dispatchEvent(new Event('input', {
             bubbles: true,
             data: answer,
         }));
+
+        await this.delay(100);
+
+        const submitButton = document.querySelector('#recaptcha-verify-button');
+        submitButton.click();
     },
 
     getForm: function(widget) {
@@ -65,4 +72,8 @@ CaptchaProcessors.register({
 
         return elements;
     },
+
+    delay: function (timeout) {
+        return new Promise(resolve => window.setTimeout(resolve, timeout));
+    }
 });

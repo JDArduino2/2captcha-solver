@@ -1,6 +1,14 @@
 (() => {
 
+    let clicked = false;
+
     setInterval(function () {
+        const clickButton = document.querySelector('.recaptcha-checkbox-border');
+        if (clickButton && !clicked) {
+            clickButton.click();
+            clicked = true;
+        }
+
         const helpButton = document.querySelector('#recaptcha-help-button');
         if (helpButton) {
             helpButton.remove();
@@ -21,9 +29,11 @@
         if (blocked) return;
 
         const audioElement = await getAudioElement();
-        const audioUrl = audioElement.src;
-        const audioBody = await downloadAudio(audioUrl);
-        addWidgetInfo(audioBody, widgetId);
+        if (audioElement) {
+            const audioUrl = audioElement.src;
+            const audioBody = await downloadAudio(audioUrl);
+            addWidgetInfo(audioBody, widgetId);
+        }
     }
 
     const isBlocked = function (timeout = 0) {
@@ -36,17 +46,55 @@
     }
 
     const getAudioElement = async function () {
-        let audioElement = document.querySelector('audio#audio-source');
+        const audioSelector = 'audio#audio-source';
+        let audioElement = document.querySelector(audioSelector);
         if (!audioElement) {
             const audioButton = document.querySelector('#recaptcha-audio-button');
-            audioButton.focus();
             await dispatchEnter(audioButton);
+            audioElement = document.querySelector(audioSelector);
+
+            const result = await Promise.race([
+                new Promise(resolve => {
+                    findNode(document, audioSelector, 5000).then(
+                        el => {
+                            delay(500).then(() => resolve({audioElement: el}));
+                        }
+                    );
+                }),
+                new Promise(resolve => {
+                    isBlocked(10000).then(blocked => resolve({blocked}));
+                })
+            ]);
+
+            if (result.blocked) {
+                return;
+            }
+
+            audioElement = result.audioElement;
         }
 
         await simulateAudioInput(audioElement);
     }
 
+    const findNode = function (node, selector, timeout) {
+        return new Promise(resolve => {
+            const ms = 100;
+            const timer = setInterval(() => {
+                const el = node.querySelector(selector)
+                if (el || timeout <= 0) {
+                    clearInterval(timer);
+                    resolve(el);
+                }
+                timeout -= ms;
+            }, ms);
+        })
+    }
+
     const simulateAudioInput = async function (audioElement) {
+        if (!audioElement) {
+            return;
+        }
+
         const muteAudio = function () {
             audioElement.muted = true;
         };
@@ -86,14 +134,25 @@
     const dispatchEnter = async function (node) {
         node.focus();
         await delay(200);
-        await simulateKeyboardEnter();
+        await simulateKeyboardEnter(node);
     }
 
-    const simulateKeyboardEnter = function () {
-        const keyboardEvent = document.createEvent('KeyboardEvent');
-        initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? 'initKeyboardEvent' : 'initKeyEvent';
-        keyboardEvent[initMethod]('keydown', true, true, window, false, false, false, false, 13, 0);
-        document.dispatchEvent(keyboardEvent);
+    const simulateKeyboardEnter = function (node) {
+        const keyEvent = {
+            code: 'Enter',
+            key: 'Enter',
+            keyCode: 13,
+            which: 13,
+            view: window,
+            bubbles: true,
+            composed: true,
+            cancelable: true
+        };
+
+        node.focus();
+        node.dispatchEvent(new KeyboardEvent('keydown', keyEvent));
+        node.dispatchEvent(new KeyboardEvent('keypress', keyEvent));
+        node.click();
     }
 
     const delay = function (timeout) {
