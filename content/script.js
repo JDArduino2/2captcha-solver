@@ -9,13 +9,13 @@ Config.getAll().then(function (config) {
         ["content/captcha/geetest/interceptor.js", config.isPluginEnabled && config.enabledForGeetest && !isBlocked],
         ["content/captcha/geetest_v4/interceptor.js", config.isPluginEnabled && config.enabledForGeetest_v4 && !isBlocked],
         ["content/captcha/hcaptcha/interceptor.js", config.isPluginEnabled && config.enabledForHCaptcha && !isBlocked],
-        ["content/captcha/hcaptcha/hunter.js"],
-        ["content/captcha/keycaptcha/hunter.js"],
+        ["content/captcha/hcaptcha/hunter.js", config.isPluginEnabled && config.enabledForHCaptcha && !isBlocked],
+        ["content/captcha/keycaptcha/hunter.js", config.isPluginEnabled && config.enabledForKeycaptcha && !isBlocked],
+        ["content/captcha/recaptcha/hunter.js", config.isPluginEnabled && (config.enabledForRecaptchaV2 || config.enabledForInvisibleRecaptchaV2 || config.enabledForRecaptchaV3) && !isBlocked],
         ["content/captcha/recaptcha/interceptor.js", config.isPluginEnabled && (config.enabledForRecaptchaV2 || config.enabledForInvisibleRecaptchaV2 || config.enabledForRecaptchaV3) && !isBlocked],
-        ["content/captcha/recaptcha_audio/interceptor.js", config.isPluginEnabled && config.enabledForRecaptchaAudio && !isBlocked],
-        ["content/captcha/recaptcha/hunter.js"],
+        ["content/captcha/recaptcha_audio/hunter.js", config.isPluginEnabled && config.enabledForRecaptchaAudio && !isBlocked],
         ["content/captcha/arkoselabs/interceptor.js", config.isPluginEnabled && config.enabledForArkoselabs && !isBlocked],
-        ["content/captcha/arkoselabs/hunter.js"],
+        ["content/captcha/arkoselabs/hunter.js", config.isPluginEnabled && config.enabledForArkoselabs && !isBlocked],
         ["content/captcha/lemin/interceptor.js", config.isPluginEnabled && config.enabledForLemin && !isBlocked],
         ["content/captcha/yandex/interceptor.js", config.isPluginEnabled && config.enabledForYandex && !isBlocked]
     ];
