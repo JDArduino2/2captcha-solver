@@ -1,12 +1,11 @@
 (() => {
-
-    let clicked = false;
+    let autoClicked = false;
 
     setInterval(function () {
         const clickButton = document.querySelector('.recaptcha-checkbox-border');
-        if (clickButton && !clicked) {
+        if (clickButton && !autoClicked) {
             clickButton.click();
-            clicked = true;
+            autoClicked = true;
         }
 
         const helpButton = document.querySelector('#recaptcha-help-button');
@@ -21,7 +20,6 @@
                 solveWithAudio(widgetId).catch(console.error);
             }
         }
-
     }, 1000);
 
     const solveWithAudio = async function (widgetId) {
@@ -167,7 +165,7 @@
 
     const addWidgetInfo = function (body, widgetId) {
         let widgetInfo = {
-            captchaType: "recaptcha",
+            captchaType: "recaptcha_audio",
             widgetId: widgetId,
             containerId: "help-button-holder-" + widgetId,
             body: body,

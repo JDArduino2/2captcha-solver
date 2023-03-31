@@ -5,11 +5,15 @@ CaptchaProcessors.register({
     canBeProcessed: function(widget, config) {
         if (!config.enabledForRecaptchaAudio) return false;
 
-        const binded = this.getBindedElements(widget);
-        return !(!binded.button && !binded.textarea);
+        if (!widget.body) return false;
+
+        return true;
     },
 
     attachButton: function(widget, config, button) {
+        let input = $("#" + widget.containerId).closest('body');
+        input.after(button);
+
         if (config.autoSolveRecaptchaAudio) {
             button.click();
         }
@@ -26,7 +30,6 @@ CaptchaProcessors.register({
             bubbles: true,
             data: answer,
         }));
-
         await this.delay(100);
 
         const submitButton = document.querySelector('#recaptcha-verify-button');
@@ -34,13 +37,8 @@ CaptchaProcessors.register({
     },
 
     getForm: function(widget) {
-        const binded = this.getBindedElements(widget);
-
-        if (binded.textarea) {
-            return binded.textarea.closest("form");
-        }
-
-        return binded.button.closest("form");
+        const container = document.getElementById(widget.containerId);
+        return container.closest("form");
     },
 
     getCallback: function(widget) {
@@ -54,23 +52,6 @@ CaptchaProcessors.register({
         };
 
         return params;
-    },
-
-    getBindedElements: function(widget) {
-        const elements = {
-            button: null,
-            textarea: null,
-        };
-
-        if (widget.bindedButtonId) {
-            let button = $("#" + widget.bindedButtonId);
-            if (button.length) elements.button = button;
-        } else {
-            let textarea = $("#" + widget.containerId + " textarea[name=g-recaptcha-response]");
-            if (textarea.length) elements.textarea = textarea;
-        }
-
-        return elements;
     },
 
     delay: function (timeout) {
