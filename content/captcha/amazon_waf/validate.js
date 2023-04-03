@@ -1,9 +1,11 @@
-AwsWafIntegration.getValidate = function () {
+AwsWafIntegration.getToken = function () {
     return {
-        token: document.querySelector("input[name=amazon_waf_token]").value,
-    };
+        captcha_voucher: document.querySelector("input[name=amazon_waf_captcha_voucher]").value,
+        existing_token: document.querySelector("input[name=amazon_waf_existing_token]").value
+    }
 }
 
 AwsWafIntegration.hasToken = function () {
-    return true;
+    const captcha_voucher_input = document.querySelector("input[name=amazon_waf_captcha_voucher]");
+    return !!(captcha_voucher_input && captcha_voucher_input.value);
 }

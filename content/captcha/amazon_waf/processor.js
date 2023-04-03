@@ -42,18 +42,20 @@ CaptchaProcessors.register({
         let helper = this.getHelper(widget);
         const challenge = helper.find("challenge.input")
         if (challenge.length) {
-            challenge.val(answer);
+            challenge.val(answer.captcha_voucher);
         }
 
         if (!helper.find('.twocaptcha-amazon_waf-helper').length) {
             $(`
                 <div class="twocaptcha-amazon_waf-helper">                  
-                    <input type="hidden" name="amazon_waf_token">                   
+                    <input type="hidden" name="amazon_waf_captcha_voucher">                   
+                    <input type="hidden" name="amazon_waf_existing_token">                   
                 </div>
             `).appendTo(helper);
         }
 
-        helper.find("input[name=amazon_waf_token]").val(answer);
+        helper.find("input[name=amazon_waf_captcha_voucher]").val(answer.captcha_voucher);
+        helper.find("input[name=amazon_waf_existing_token]").val(answer.existing_token);
 
         let script = document.createElement("script");
         script.src = chrome.runtime.getURL("content/captcha/amazon_waf/validate.js");
