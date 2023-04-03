@@ -1,14 +1,34 @@
 (() => {
+    const GeetestIsLoad = function (fname) {
+        let geetestIsLoad = false;
+        let tags = { js: 'script', css: 'link' };
+        let tagname = tags[fname.split('.').pop()];
+        if (tagname !== undefined) {
+            let elts = document.getElementsByTagName(tagname);
+            for (let i in elts) {
+                if ((elts[i].href && elts[i].href.toString().indexOf(fname) > 0)
+                    || (elts[i].src && elts[i].src.toString().indexOf(fname) > 0)) {
+                    geetestIsLoad = true;
+                }
+            }
+        }
+        return geetestIsLoad;
+    };
+
     let originalFunc = window.initGeetest4;
 
-    Object.defineProperty(window, "initGeetest4", {
-        get: function () {
-            return interceptorFunc;
-        },
-        set: function (e) {
-            originalFunc = e;
-        }, configurable: true
-    });
+    setInterval(() => {
+        if (GeetestIsLoad('gt4.js')) {
+            Object.defineProperty(window, "initGeetest4", {
+                get: function () {
+                    return interceptorFunc;
+                },
+                set: function (e) {
+                    originalFunc = e;
+                }, configurable: true
+            });
+        }
+    }, 1)
 
     let interceptorFunc = function (params, callback) {
         const getCaptchaId = function () {
