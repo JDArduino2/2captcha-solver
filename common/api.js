@@ -82,6 +82,9 @@ class TwoCaptcha {
     amazon_waf(captcha) {
         captcha.method = "amazon_waf";
 
+turnstile(captcha) {
+        captcha.method = "turnstile";
+
         return this.solve(captcha);
     }
 

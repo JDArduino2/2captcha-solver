@@ -61,6 +61,8 @@
                 "content/captcha/capy/processor.js",
                 "content/captcha/capy/hunter.js",
                 "content/captcha/amazon_waf/processor.js"
+                "content/captcha/turnstile/processor.js",
+                "content/captcha/turnstile/hunter.js"
             ]
         }
     ],
