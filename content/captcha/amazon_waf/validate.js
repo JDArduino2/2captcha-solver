@@ -9,3 +9,7 @@ AwsWafIntegration.hasToken = function () {
     const captcha_voucher_input = document.querySelector("input[name=amazon_waf_captcha_voucher]");
     return !!(captcha_voucher_input && captcha_voucher_input.value);
 }
+
+if (window.ChallengeScript !== undefined) {
+    ChallengeScript.submitCaptcha(document.querySelector("input[name=amazon_waf_captcha_voucher]").value);
+}
