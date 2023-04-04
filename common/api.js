@@ -2,7 +2,7 @@ class TwoCaptcha {
 
     constructor(options) {
         if (typeof options == "string") {
-            options = {apiKey: options}
+            options = { apiKey: options }
         }
 
         let defaultOptions = {
@@ -22,13 +22,13 @@ class TwoCaptcha {
     normal(captcha) {
         captcha.method = "base64";
 
-        return this.solve(captcha, {timeout: this.defaultTimeout});
+        return this.solve(captcha, { timeout: this.defaultTimeout });
     }
 
     recaptcha(captcha) {
         captcha.method = "userrecaptcha";
 
-        return this.solve(captcha, {timeout: this.recaptchaTimeout});
+        return this.solve(captcha, { timeout: this.recaptchaTimeout });
     }
 
     geetest(captcha) {
@@ -81,8 +81,10 @@ class TwoCaptcha {
 
     amazon_waf(captcha) {
         captcha.method = "amazon_waf";
+        return this.solve(captcha);
+    }
 
-turnstile(captcha) {
+    turnstile(captcha) {
         captcha.method = "turnstile";
 
         return this.solve(captcha);
@@ -160,20 +162,19 @@ turnstile(captcha) {
     }
 
     async balance() {
-        let balance = await this.res({action: "getbalance"});
+        let balance = await this.res({ action: "getbalance" });
 
         return parseFloat(balance);
     }
 
     async userInfo() {
-        return await this.res({action: "userinfo"});
+        return await this.res({ action: "userinfo" });
     }
 
-    async report(id, isCorrect)
-    {
+    async report(id, isCorrect) {
         let action = isCorrect ? "reportgood" : "reportbad";
 
-        return await this.res({action, id});
+        return await this.res({ action, id });
     }
 
     sendAttachDefaultParams(captcha) {
@@ -191,7 +192,7 @@ turnstile(captcha) {
             fileKeys.push('file_' + i);
         }
 
-        fileKeys.forEach(function(key) {
+        fileKeys.forEach(function (key) {
             if (captcha[key] !== undefined /* && is_file($captcha[$key]) */) {
                 files[key] = captcha[key];
                 delete captcha[key];
@@ -222,24 +223,24 @@ turnstile(captcha) {
 
     getParamsMap(method) {
         let commonMap = {
-            base64:        "body",
+            base64: "body",
             caseSensitive: "regsense",
-            minLen:        "min_len",
-            maxLen:        "max_len",
-            hintText:      "textinstructions",
-            hintImg:       "imginstructions",
-            url:           "pageurl",
-            score:         "min_score",
-            text:          "textcaptcha",
-            rows:          "recaptcharows",
-            cols:          "recaptchacols",
-            previousId:    "previousID",
-            canSkip:       "can_no_answer",
-            apiServer:     "api_server",
-            softId:        "soft_id",
-            captchaId:     "captcha_id",
-            divId:         "div_id",
-            callback:      "pingback",
+            minLen: "min_len",
+            maxLen: "max_len",
+            hintText: "textinstructions",
+            hintImg: "imginstructions",
+            url: "pageurl",
+            score: "min_score",
+            text: "textcaptcha",
+            rows: "recaptcharows",
+            cols: "recaptchacols",
+            previousId: "previousID",
+            canSkip: "can_no_answer",
+            apiServer: "api_server",
+            softId: "soft_id",
+            captchaId: "captcha_id",
+            divId: "div_id",
+            callback: "pingback",
         };
 
         let methodMap = {
@@ -298,7 +299,7 @@ turnstile(captcha) {
             for (let key in data) {
                 if (typeof data[key] == 'object') {
                     for (let ok in data[key]) {
-                        formData.append(key + "["+ok+"]", data[key][ok]);
+                        formData.append(key + "[" + ok + "]", data[key][ok]);
                     }
                 } else {
                     formData.append(key, data[key]);
